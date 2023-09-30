@@ -197,9 +197,9 @@ const StockBox = ({selectedStock, portfolioStocks, watchList, toggleWatchList}) 
 
 
 
-    return ( 
+    return livePriceData ? ( 
         <>
-                  <OverviewTitle>Stock Overview</OverviewTitle>
+        <OverviewTitle>Stock Overview</OverviewTitle>
         <PageContainer>
 
           <ExternalContainerRow>
@@ -218,9 +218,15 @@ const StockBox = ({selectedStock, portfolioStocks, watchList, toggleWatchList}) 
                     <StockExchange>{liveCompanyData.exchange}.</StockExchange><Currency> Currency in {liveCompanyData.currency}</Currency>
                   </StockTitleContainer>
                   <StockSummaryContainer>
-                    <StockCurrentPrice title="current price">${livePriceData.c}</StockCurrentPrice>
-                    <StockPriceChange title="stock price change (since last close)" value={livePriceData.d}> ${livePriceData.d.toFixed(2)}</StockPriceChange>
-                    <PriceChangePercent value={livePriceData.dp}> ({livePriceData.dp.toFixed(2)}%)  </PriceChangePercent>
+                    <StockCurrentPrice title="current price">
+                    {livePriceData.c !== undefined ? `$${livePriceData.c.toFixed(2)}` : ''}
+                    </StockCurrentPrice>
+                    <StockPriceChange title="stock price change (since last close)" value={livePriceData.d}>
+                      {livePriceData.d !== undefined ? `$${livePriceData.d.toFixed(2)}` : ''}
+                    </StockPriceChange>
+                    <PriceChangePercent value={livePriceData.dp}>
+                      {livePriceData.dp !== undefined ? `(${livePriceData.dp.toFixed(2)}%)` : ''}
+                    </PriceChangePercent>
                   </StockSummaryContainer>
                   <CurrentTime>As of {formattedDate}</CurrentTime>
                 </DisplayContainer>
@@ -241,7 +247,10 @@ const StockBox = ({selectedStock, portfolioStocks, watchList, toggleWatchList}) 
 
                 <DisplayContainer>
               <DetailContainer>
-                <DetailKey>Market cap:</DetailKey><DetailValue>${liveCompanyData.marketCapitalization.toFixed(2)}</DetailValue>
+              <DetailKey>Market cap:</DetailKey>
+                <DetailValue>
+                  {liveCompanyData.marketCapitalization !== undefined ? `$${liveCompanyData.marketCapitalization.toFixed(2)}` : ''}
+                </DetailValue>
               </DetailContainer>
               <DetailContainer>
                 <DetailKey>Previous close:</DetailKey><DetailValue>${livePriceData.pc}</DetailValue>
@@ -292,7 +301,7 @@ const StockBox = ({selectedStock, portfolioStocks, watchList, toggleWatchList}) 
 
         </>
         
-     );
+     ) : null;
 
 
 };
